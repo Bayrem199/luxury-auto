@@ -1,0 +1,37 @@
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.glitch::before {
+  color: #ff006e;
+  animation: glitch1 4s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  transform: translateX(-2px);
+}
+.glitch::after {
+  color: #00cfff;
+  animation: glitch2 4s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  transform: translateX(2px);
+}
+@keyframes glitch1 {
+  0%,90%,100%{opacity:0;transform:translateX(-2px)}
+  91%{opacity:1;transform:translateX(-4px) skewX(-5deg)}
+  93%{opacity:0;transform:translateX(2px)}
+  95%{opacity:1;transform:translateX(-2px)}
+  97%{opacity:0}
+}
+@keyframes glitch2 {
+  0%,90%,100%{opacity:0;transform:translateX(2px)}
+  92%{opacity:1;transform:translateX(4px) skewX(5deg)}
+  94%{opacity:0;transform:translateX(-2px)}
+  96%{opacity:1;transform:translateX(2px)}
+  98%{opacity:0}
+}

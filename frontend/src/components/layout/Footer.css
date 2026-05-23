@@ -1,0 +1,24 @@
+.footer { background:var(--black-rich); border-top:1px solid rgba(201,168,76,0.1); }
+.footer__top { padding:90px 0 70px; }
+.footer__grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:64px; }
+@media(max-width:1024px){ .footer__grid { grid-template-columns:1fr 1fr; gap:48px; } }
+@media(max-width:600px){ .footer__grid { grid-template-columns:1fr; gap:36px; } }
+.footer__logo { display:flex; flex-direction:column; gap:4px; margin-bottom:22px; }
+.footer__logo-main { font-family:var(--font-body); font-size:12px; font-weight:800; letter-spacing:6px; color:var(--white); }
+.footer__logo-sub { font-size:8px; letter-spacing:5px; color:var(--gold); text-transform:uppercase; }
+.footer__tagline { font-size:14px; color:var(--white-muted); line-height:1.9; margin-bottom:30px; font-style:italic; font-family:var(--font-display); }
+.footer__socials { display:flex; gap:0; }
+.footer__social { font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--white-muted); padding:8px 16px; border:1px solid rgba(255,255,255,0.07); margin-right:-1px; transition:all var(--transition-fast); }
+.footer__social:hover { color:var(--gold); border-color:rgba(201,168,76,0.3); background:rgba(201,168,76,0.04); z-index:1; position:relative; }
+.footer__col-title { font-family:var(--font-body); font-size:9px; font-weight:800; letter-spacing:5px; text-transform:uppercase; color:var(--gold); margin-bottom:28px; }
+.footer__col-links { list-style:none; display:flex; flex-direction:column; gap:0; }
+.footer__col-links li a, .footer__col-links li { font-size:13px; color:var(--white-muted); transition:all 0.3s; display:block; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.footer__col-links li a:hover { color:var(--white); padding-left:8px; }
+.footer__address { font-size:12px !important; line-height:1.9; color:var(--gray-400) !important; }
+.footer__bottom { border-top:1px solid rgba(255,255,255,0.05); padding:24px 0; }
+.footer__bottom-inner { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.footer__copy { font-size:11px; letter-spacing:1px; color:var(--gray-400); }
+.footer__legal { display:flex; align-items:center; gap:14px; font-size:11px; }
+.footer__legal a { color:var(--gray-400); transition:color var(--transition-fast); }
+.footer__legal a:hover { color:var(--white); }
+.footer__legal span { color:rgba(255,255,255,0.1); }
