@@ -10,13 +10,18 @@ connectDB();
 
 const app = express();
 
-/* CORS */
-app.use(cors());
+/* IMPORTANT */
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://luxury-auto-frontend.onrender.com'
+  ],
+  credentials: true
+}));
 
-/* JSON */
 app.use(express.json());
 
-/* Routes */
+/* ROUTES */
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/protected', require('./routes/protected'));
 app.use('/api/chat', require('./routes/chat'));
@@ -29,8 +34,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+/* TEST ROOT */
+app.get('/', (req, res) => {
+  res.send('Luxury Auto Backend Running');
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
