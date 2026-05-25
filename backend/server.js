@@ -16,7 +16,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/protected', require('./routes/protected'));
-
+app.use('/api/chat', require('./routes/chat'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Luxury Auto API running', version: '2.0.0', db: 'MongoDB' });
 });

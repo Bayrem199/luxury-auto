@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import LoadingScreen from './components/common/LoadingScreen';
 import CustomCursor from './components/common/CustomCursor';
+import ARIAChatbot from './components/common/ARIAChatbot';
 import './styles/globals.css';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -64,6 +65,7 @@ const AppRoutes = () => {
         </Routes>
       </Suspense>
       <Footer />
+       <ARIAChatbot apiKey={process.env.REACT_APP_ANTHROPIC_KEY} />
     </>
   );
 };
