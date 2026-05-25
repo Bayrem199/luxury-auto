@@ -10,13 +10,16 @@ import axios from 'axios';
 const AuthContext = createContext(null);
 
 /* =========================
-   BACKEND URL
+   API URL
 ========================= */
 
-const API = 'https://luxury-auto-backend.onrender.com';
+const API =
+  process.env.NODE_ENV === 'production'
+    ? 'https://luxury-auto-backend.onrender.com'
+    : 'http://localhost:5000';
 
 /* =========================
-   AXIOS BASE URL
+   AXIOS CONFIG
 ========================= */
 
 axios.defaults.baseURL = API;
@@ -47,15 +50,23 @@ export const AuthProvider = ({ children }) => {
         .get('/api/auth/me')
 
         .then((res) => {
+
           setUser(res.data);
+
         })
 
-        .catch(() => {
+        .catch((err) => {
+
+          console.error(err);
+
           logout();
+
         })
 
         .finally(() => {
+
           setLoading(false);
+
         });
 
     } else {
@@ -72,33 +83,45 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
 
-    const res = await axios.post(
-      '/api/auth/login',
-      {
-        email,
-        password
-      }
-    );
+    try {
 
-    const {
-      token: newToken,
-      user: userData
-    } = res.data;
+      const res = await axios.post(
+        '/api/auth/login',
+        {
+          email,
+          password
+        }
+      );
 
-    localStorage.setItem(
-      'luxury_token',
-      newToken
-    );
+      const {
+        token: newToken,
+        user: userData
+      } = res.data;
 
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${newToken}`;
+      localStorage.setItem(
+        'luxury_token',
+        newToken
+      );
 
-    setToken(newToken);
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${newToken}`;
 
-    setUser(userData);
+      setToken(newToken);
 
-    return userData;
+      setUser(userData);
+
+      return userData;
+
+    } catch (err) {
+
+      console.error(
+        'LOGIN ERROR:',
+        err.response?.data || err.message
+      );
+
+      throw err;
+    }
   };
 
   /* =========================
@@ -107,30 +130,42 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (data) => {
 
-    const res = await axios.post(
-      '/api/auth/register',
-      data
-    );
+    try {
 
-    const {
-      token: newToken,
-      user: userData
-    } = res.data;
+      const res = await axios.post(
+        '/api/auth/register',
+        data
+      );
 
-    localStorage.setItem(
-      'luxury_token',
-      newToken
-    );
+      const {
+        token: newToken,
+        user: userData
+      } = res.data;
 
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${newToken}`;
+      localStorage.setItem(
+        'luxury_token',
+        newToken
+      );
 
-    setToken(newToken);
+      axios.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${newToken}`;
 
-    setUser(userData);
+      setToken(newToken);
 
-    return userData;
+      setUser(userData);
+
+      return userData;
+
+    } catch (err) {
+
+      console.error(
+        'REGISTER ERROR:',
+        err.response?.data || err.message
+      );
+
+      throw err;
+    }
   };
 
   /* =========================
@@ -153,6 +188,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
+
     <AuthContext.Provider
       value={{
         user,
@@ -164,8 +200,11 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!user
       }}
     >
+
       {children}
+
     </AuthContext.Provider>
+
   );
 };
 
@@ -174,9 +213,11 @@ export const useAuth = () => {
   const ctx = useContext(AuthContext);
 
   if (!ctx) {
+
     throw new Error(
       'useAuth must be used within AuthProvider'
     );
+
   }
 
   return ctx;
