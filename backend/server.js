@@ -7,7 +7,10 @@ const connectDB = require('./config/db');
 
 dotenv.config();
 
-/* CONNECT DATABASE */
+/* =========================
+   CONNECT DATABASE
+========================= */
+
 connectDB();
 
 const app = express();
@@ -20,7 +23,8 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://localhost:3001',
-    'https://luxury-auto-frontend.onrender.com'
+    'https://luxury-auto-frontend.onrender.com',
+    'https://luxury-auto-admin.onrender.com'
   ],
   credentials: true
 }));
@@ -30,6 +34,7 @@ app.use(cors({
 ========================= */
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /* =========================
    STATIC UPLOADS
@@ -59,7 +64,7 @@ app.use('/api/reservations', require('./routes/reservations'));
 /* CONTACT */
 app.use('/api/contact', require('./routes/contact'));
 
-/* EXISTING */
+/* EXISTING ROUTES */
 app.use('/api/protected', require('./routes/protected'));
 app.use('/api/chat', require('./routes/chat'));
 
@@ -71,16 +76,52 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'Luxury Auto API running',
     version: '3.0.0',
-    db: 'MongoDB'
+    db: 'MongoDB',
+    time: new Date()
   });
 });
 
 /* =========================
-   ROOT TEST
+   TEST VEHICLES ROUTE
+========================= */
+
+app.get('/api/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Vehicles API connected successfully'
+  });
+});
+
+/* =========================
+   ROOT
 ========================= */
 
 app.get('/', (req, res) => {
   res.send('Luxury Auto Backend Running');
+});
+
+/* =========================
+   404 HANDLER
+========================= */
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
+  });
+});
+
+/* =========================
+   ERROR HANDLER
+========================= */
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(500).json({
+    success: false,
+    message: 'Internal Server Error'
+  });
 });
 
 /* =========================
